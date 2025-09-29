@@ -38,6 +38,33 @@ kernel=C:\\Users\\YOUR_USERNAME\\Downloads\\vmlinux
 Linux 5.15.123.1-lgug2z-custom-WSL2
 ```
 
+## CGroupsV2 IO.Weight
+
+To make functional the IO.Weight functional to your Ubuntu Distro in WSL you need to run this commands
+
+```
+sudo mkdir -p /etc/systemd/system/system.slice.d
+echo -e "[Slice]\nIOAccounting=yes" | sudo tee /etc/systemd/system/system.slice.d/override.conf
+```
+
+```
+sudo mkdir -p /etc/systemd/system/user.slice.d
+echo -e "[Slice]\nIOAccounting=yes" | sudo tee /etc/systemd/system/user.slice.d/override.conf
+```
+
+```
+sudo systemctl daemon-reexec
+```
+
+To test if properly works you can use this command
+
+```
+cat /sys/fs/cgroup/system.slice/cgroup.subtree_control
+```
+
+if you see IO on the cat it's working well
+
+
 ## Modification
 
 If you want to build and publish your own custom WSL2 Linux Kernel, you can
