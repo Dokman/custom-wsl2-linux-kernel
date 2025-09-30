@@ -61,11 +61,8 @@ for FILE in "${FILES[@]}"; do
         echo "$CONFIG" | sudo tee -a "$FILE" > /dev/null
     fi
     echo "Configuration applied in $FILE"
+    sudo systemctl daemon-reexec
 done
-```
-
-```
-sudo systemctl daemon-reexec
 ```
 
 To test if properly works you can use this command
