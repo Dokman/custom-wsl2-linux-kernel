@@ -43,13 +43,25 @@ Linux 5.15.123.1-lgug2z-custom-WSL2
 To make functional the IO.Weight functional to your Ubuntu Distro in WSL you need to run this commands
 
 ```
-sudo mkdir -p /etc/systemd/system/system.slice.d
-echo -e "[Slice]\nIOAccounting=yes" | sudo tee /etc/systemd/system/system.slice.d/override.conf
-```
+#!/bin/bash
+set -e
 
-```
-sudo mkdir -p /etc/systemd/system/user.slice.d
-echo -e "[Slice]\nIOAccounting=yes" | sudo tee /etc/systemd/system/user.slice.d/override.conf
+CONFIG="DefaultIOAccounting=yes"
+
+FILES=(
+    "/etc/systemd/system.conf"
+    "/etc/systemd/user.conf"
+)
+
+for FILE in "${FILES[@]}"; do
+    if grep -q "^DefaultIOAccounting=" "$FILE"; then
+
+        sudo sed -i "s/^DefaultIOAccounting=.*/$CONFIG/" "$FILE"
+    else
+        echo "$CONFIG" | sudo tee -a "$FILE" > /dev/null
+    fi
+    echo "Configuration applied in $FILE"
+done
 ```
 
 ```
