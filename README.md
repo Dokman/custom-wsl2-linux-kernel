@@ -1,21 +1,17 @@
-# Custom WSL2 Linux Kernel
+# Custom WSL2 Linux Kernel - CGroupsV2
 
-This repository is forked from the excellent [Windows WSL2 Kernel Build Script
-repo by
-slyfox1186](https://github.com/slyfox1186/windows-wsl2-kernel-build-script).
+This repository is forked from the excellent [Windows WSL2 Kernel Build Script repo by slyfox1186](https://github.com/slyfox1186/windows-wsl2-kernel-build-script).
 
-This project aims to use GitHub Actions Workflows to produce and publish
-up-to-date, versioned custom builds of
-[WSL2-Linux-Kernel](https://github.com/microsoft/WSL2-Linux-Kernel) with
-[`HIDDEV`](https://docs.kernel.org/hid/hiddev.html) and
-[`HIDRAW`](https://docs.kernel.org/hid/hidraw.html) enabled.
+This project aims to use GitHub Actions Workflows to produce and publish up-to-date, versioned custom builds of [WSL2-Linux-Kernel](https://github.com/microsoft/WSL2-Linux-Kernel) with [`HIDDEV`](https://docs.kernel.org/hid/hiddev.html) and [`HIDRAW`](https://docs.kernel.org/hid/hidraw.html) enabled, **plus full CGroupsV2 support and kernel IO functions like `io.weight`**.
 
-These custom kernels builds can be used to enable full Yubikey passthrough to
-WSL2 using [`usbipd`](https://github.com/dorssel/usbipd-win), with full FIDO2
-functionality.
+These custom kernels builds can be used to enable full Yubikey passthrough to WSL2 using [`usbipd`](https://github.com/dorssel/usbipd-win), with full FIDO2 functionality, **and add the missing kernel IO functions from Microsoft's original kernel (like `weight`, min/max limits, and proportional I/O control in CGroupsV2)**.
 
-The versioning scheme of this project matches the versioning scheme used by
-WSL2-Linux-Kernel.
+The versioning scheme of this project matches the versioning scheme used by WSL2-Linux-Kernel.
+
+## Added Features
+- **HIDDEV and HIDRAW**: For full USB HID device support in WSL2.
+- **Full CGroupsV2**: Enabled with `systemd.unified_cgroup_hierarchy=1` and all required options.
+- **Kernel IO functions**: Includes `CONFIG_BLK_CGROUP_IOCOST=y`, `CONFIG_IO_WEIGHT=y`, and IO scheduling controllers with weights (`weight`), missing from Microsoft's base kernel to optimize containers and disk-intensive workloads.
 
 ## Usage
 
